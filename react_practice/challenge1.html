@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        function MinutesToHours() {
+            // state 2개
+            // 사용자들이 입력한 값을 amount로 사용
+            const [amount, setAmount] = React.useState();
+            const [flipped, setFlipped] = React.useState(false);
+            const onChange = (event) => {
+                // console.log(event.target.value);
+                setAmount(event.target.value);
+            };
+            const reset = () => setAmount(0);
+            const onFlip = () => {
+                reset();
+                // setFlipped(!flipped);
+                // input able 상태를 바꿈
+                setFlipped( (current) => !current )
+            };
+            // 두 input 중 enabled 상태인 input에서 amount state 수정
+            // Minutes, Hours 둘 다 onChange 이벤트 가짐
+            return(
+                <div>
+                    <div>
+                        <label htmlFor="minutes">Minutes</label>
+                        <input 
+                        value = {flipped ? amount*60 : amount}
+                            id="minutes" 
+                            placeholder="Minutes" 
+                            type="number"
+                            onChange={onChange}
+                            disabled={flipped}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="hours">Hours</label>
+                        <input 
+                            value = {flipped ? amount : amount/60}
+                            id="hours" 
+                            placeholder = "Hours" 
+                            type="number"
+                            onChange={onChange}
+                            disabled={!flipped}
+                        />
+                    </div>
+                   
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onFlip}>{flipped ? "Hours->Minutes" : "Minutes->Hours" }</button>
+                    
+                </div>
+            );
+        }
+        function KmToMiles(){
+            const [amount, setAmount] = React.useState();
+            const [flipped, setFlipped] = React.useState(false);
+            const onChange = (event) => {
+                // console.log(event.target.value);
+                setAmount(event.target.value);
+            };
+            const reset = () => setAmount(0);
+            const onFlip = () => {
+                reset();
+                // setFlipped(!flipped);
+                // input able 상태를 바꿈
+                setFlipped( (current) => !current )
+            };
+            return(
+                <div>
+                    <div>
+                        <label htmlFor="km">Km</label>
+                        <input 
+                        value = {flipped ? amount*1.60934 : amount}
+                            id="km" 
+                            placeholder="Km" 
+                            type="number"
+                            onChange={onChange}
+                            disabled={flipped}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="miles">Miles</label>
+                        <input 
+                            value = {flipped ? amount : amount*0.621371}
+                            id="miles" 
+                            placeholder = "Miles" 
+                            type="number"
+                            onChange={onChange}
+                            disabled={!flipped}
+                        />
+                    </div>
+                   
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onFlip}>{flipped ? "Miles->Km" : "Km->Miles" }</button>
+                    
+                </div>
+            );
+        }
+        function App(){
+            const [index, setIndex] = React.useState("xx");
+            const onSelect = (event) => {
+                setIndex(event.target.value);
+            };
+            return (
+                <div>
+                    <h1>Super Converter</h1>
+                     {/* 사용자가 뭘 선택했는지 */}
+                    <select onChange={onSelect}> 
+                        <option value="xx"> select units</option>
+                        <option value="0">Minutes & Hours</option>
+                        <option value="1">Km & Miles</option>
+                    </select>
+                    {/*javascipt 구문*/}
+                    {
+                        index==="xx" ? "Select units" : null
+                    }
+                    {   
+                        // index가 0이면 해당 컴포넌트, 아니면 null 보여줌
+                        index==="0" ? <MinutesToHours/> : null
+                    }
+                    {   
+                        // index가 이면 해당 컴포넌트, 아니면 null 보여줌
+                        index==="1" ? <KmToMiles/> : null
+                    }
+                </div>
+            );
+        }
+        const root = document.getElementById("root");          
+        ReactDOM.render(<App/>, root);
+    </script>
+</html>
