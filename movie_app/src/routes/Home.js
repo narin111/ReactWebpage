@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Movie from "../components/Movie";
 
 function Home(){
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   // 기본값으로 비어있는 array
   const [movies, setMovies] = useState([]);
   const getMovies = async () => {
@@ -10,6 +10,7 @@ function Home(){
       `https://yts.mx/api/v2/list_movies.json?minimum_rating=8&sort_by=year`
     );
     const json = await response.json();
+    //
     setMovies(json.data.movies);
     setLoading(false);
   };
@@ -20,7 +21,7 @@ function Home(){
   return <div>
     {loading ?
       <h1>Loading...</h1> :
-      <div>
+      <div class="homeMV">
         {movies.map((movie) => (
           <Movie 
             key={movie.id}
